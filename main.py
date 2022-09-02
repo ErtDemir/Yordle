@@ -8,42 +8,8 @@ from matplotlib.pyplot import show
 import requests
 from bs4 import BeautifulSoup
 
-class Champion:
-    def __init__(self,name) -> None:
-        self.__name = name
-        self.__length = str(len(name))
-
-    @property
-    def name(self) -> str:
-        return self.__name
-
-    @property
-    def length(self) -> str:
-        return self.__length
-
-    @name.setter
-    def name(self,new_name):
-        self.__name = new_name
-    
-    @length.setter
-    def length(self,new_length):
-        self.__length = new_length
-    
-    @name.deleter
-    def name(self):
-        print("Deleted the name of"+self.name)
-        del self.__name
-
-    @length.deleter
-    def length(self):
-        print("Deleted the length of"+self.length)
-
-class Letter:
-    def __init__(self,letter,index,type) -> None:
-        self.letter = letter
-        self.index = index
-        self.type = type
-
+from champion import Champion
+from letter import Letter
 
 def get_champs():
     champions=[]
@@ -98,7 +64,7 @@ def app():
     Champions = get_champs()
 
     print("Enter 0 if you want exit ")
-    inputValue = input("Enter the number of boxes  >")
+    inputValue = int(input("Enter the number of boxes  >"))
     Champions = short_by_len(Champions, inputValue)
     length = inputValue
     letters = []
@@ -107,7 +73,7 @@ def app():
         
         while(True):
             inputValue , letterIndex , letterType  = input("(Enter ,, if want stop to enter letter) Enter color (green,yellow,gray) for type of letters and the letter with index. (Ex. >A,2,green) >").lower().split(",")
-            if error_check( inputValue , letterIndex , letterType, length):
+            if error_check( inputValue , int(letterIndex) , letterType, length):
                 break
             if inputValue == "" :
                 break
