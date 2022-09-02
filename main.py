@@ -73,7 +73,7 @@ def app():
         
         while(True):
             inputValue , letterIndex , letterType  = input("(Enter ,, if want stop to enter letter) Enter color (green,yellow,gray) for type of letters and the letter with index. (Ex. >A,2,green) >").lower().split(",")
-            if error_check( inputValue , int(letterIndex) , letterType, length):
+            if error_check( inputValue , letterIndex , letterType, length):
                 break
             if inputValue == "" :
                 break
