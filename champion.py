@@ -1,14 +1,17 @@
 class Champion:
+    name : str
+    length : int  
+
     def __init__(self,name) -> None:
         self.__name = name
-        self.__length = str(len(name))
+        self.__length = len(name)
 
     @property
     def name(self) -> str:
         return self.__name
 
     @property
-    def length(self) -> str:
+    def length(self) -> int:
         return self.__length
 
     @name.setter

@@ -3,6 +3,7 @@
 from ast import Try
 from distutils.log import error
 from logging import exception
+from pickletools import int4
 from unicodedata import name
 from matplotlib.pyplot import show
 import requests
@@ -11,8 +12,10 @@ from bs4 import BeautifulSoup
 from champion import Champion
 from letter import Letter
 
+
+
 def get_champs():
-    champions=[]
+    champions_list=[]
     vgm_url = 'https://www.leagueoflegends.com/en-gb/champions/'
     html_text = requests.get(vgm_url).text
     soup = BeautifulSoup(html_text, 'html.parser')
@@ -22,9 +25,9 @@ def get_champs():
         if '/en-gb/champions/' in oneLink:
             champ_name = oneLink.split("/")[-2]
             champ_name = champ_name.replace("-","")
-            champions.append(Champion(champ_name))
+            champions_list.append(Champion(champ_name))
             
-    return champions
+    return champions_list
 
 def short_by_len(champions,length):
     lenSuitableChamps = []
@@ -51,7 +54,7 @@ def show_champions(champions):
         print(champ.name)
 
 def error_check( inputValue , letterIndex , letterType,length):
-    if letterIndex >= length+1: 
+    if int(letterIndex) >= length+1: 
         print("Enter invalid index")
         return True
     if letterType not in ["green","yellow","gray"]:
@@ -62,24 +65,25 @@ def error_check( inputValue , letterIndex , letterType,length):
 
 def app():
     Champions = get_champs()
-
+    print(Champions[0])
     print("Enter 0 if you want exit ")
-    inputValue = int(input("Enter the number of boxes  >"))
+    inputValue = int(input("Enter the number of boxes  > "))
     Champions = short_by_len(Champions, inputValue)
     length = inputValue
     letters = []
     while(inputValue != "0" ):
         show_champions(Champions)
-        
         while(True):
             inputValue , letterIndex , letterType  = input("(Enter ,, if want stop to enter letter) Enter color (green,yellow,gray) for type of letters and the letter with index. (Ex. >A,2,green) >").lower().split(",")
-            if error_check( inputValue , letterIndex , letterType, length):
-                break
             if inputValue == "" :
                 break
+            if error_check( inputValue , letterIndex , letterType, length):
+                break
+            
             letters.append(Letter(inputValue, int(letterIndex)-1, letterType)) #User enter the index 1,2,3 but we store 0,1,2
         
-        inputValue = input("Enter 0 for exit")
+        #Elimination
+        inputValue = input("Enter 0 for exit > ")
 
 
 if __name__ == '__main__':
